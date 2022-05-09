@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from 'react';
+import { Route, Routes, Navigate } from 'react-router-dom';
+
+import styles from './App.module.scss';
+
+import { FAVORITE_MOVIES, getItem } from './utils/storage';
+import { useDispatch } from 'react-redux';
+import { setFavoriteMovies } from './__redux/actions';
+
+import SearchPage from './pages/SearchPage';
+import FavoritesPage from './pages/FavoritesPage';
+import FooterBar from './commons/FooterBar';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const movies = getItem(FAVORITE_MOVIES);
+    dispatch(setFavoriteMovies(movies));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={styles.app}>
+      <div className={styles.container}>
+        <Routes>
+          <Route path="/" element={<SearchPage />} />
+          <Route path="/favorites" element={<FavoritesPage />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+        <FooterBar />
+      </div>
     </div>
   );
 }

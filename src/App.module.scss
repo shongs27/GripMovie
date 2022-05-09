@@ -1,0 +1,28 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+
+  &::before,
+  &::after {
+    box-sizing: border-box;
+  }
+}
+
+.app {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #dee3f9;
+}
+
+.container {
+  position: relative;
+  width: 360px;
+  height: 720px;
+  padding: 40px 40px;
+  background-color: black;
+  color: white;
+  border-radius: 60px;
+}
