@@ -1,9 +1,24 @@
-export default function FavoritesPage() {
+import { SearchIcon } from '../assets/svg';
+
+export default function SearchBar({
+  searchField,
+  handleSearchChange,
+  handleSearchSubmit,
+}) {
+  function onChange(e) {
+    const target = e.target.value;
+    handleSearchChange(target);
+  }
+
   return (
     <header>
-      <button type="button">{/* 아이콘 */}</button>
+      <form onSubmit={handleSearchSubmit}>
+        <button type="submit" style={{ width: '40px', height: '40px' }}>
+          <SearchIcon />
+        </button>
 
-      <input type="text" />
+        <input type="text" onChange={onChange} value={searchField} />
+      </form>
     </header>
   );
 }
