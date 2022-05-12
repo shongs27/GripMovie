@@ -1,17 +1,13 @@
 import { useCallback, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  changeSearchPage,
-  getSearchField,
-  getSearchNextPage,
-} from '../__redux/slice';
+import { useDispatch } from 'react-redux';
+import { getSearchNextPage } from '../__redux/slice';
 import MovieItem from './MovieItem';
 
 export default function MovieList({ movies = [] }) {
   const dispatch = useDispatch();
+
   //observer는 DOM이 아니라 정보를 기억한다
   const observer = useRef();
-
   const lastElementRef = useCallback((node) => {
     //초기화
     if (observer.current) observer.current.disconnect();

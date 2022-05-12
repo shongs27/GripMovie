@@ -4,7 +4,7 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import styles from './App.module.scss';
 
 import { FAVORITE_MOVIES, getItem } from './utils/storage';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getSearchCategory, setFavoriteMovies } from './__redux/slice';
 
 import SearchPage from './pages/SearchPage';
@@ -14,6 +14,7 @@ import Notice from './components/Notice';
 
 function App() {
   const dispatch = useDispatch();
+  const toggle = useSelector((state) => state.notice.toggle);
 
   useEffect(() => {
     const movies = getItem(FAVORITE_MOVIES);
@@ -22,8 +23,8 @@ function App() {
 
   return (
     <div className={styles.app}>
-      <div className={styles.container}>
-        <Notice />
+      <Notice />
+      <div className={toggle ? styles.container2 : styles.container}>
         <Routes>
           <Route path="/" element={<SearchPage />} />
           <Route path="favorites" element={<FavoritesPage />} />

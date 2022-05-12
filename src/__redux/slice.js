@@ -27,6 +27,7 @@ const initialState = {
     // },
   ],
   favoriteMovies: [],
+  selectedMovie: '',
   categoryCount: {
     movie: 0,
     series: 0,
@@ -88,6 +89,14 @@ const reducers = {
       },
     };
   },
+
+  selectMovie: (state, { payload: imdbID }) => {
+    const { searchedMovies } = state;
+    return {
+      ...state,
+      selectedMovie: searchedMovies.find((movie) => movie.imdbID === imdbID),
+    };
+  },
 };
 
 const { actions, reducer } = createSlice({
@@ -103,6 +112,7 @@ export const {
   setFavoriteMovies,
   setMoviesCategory,
   setNoticeToggle,
+  selectMovie,
 } = actions;
 
 export default reducer;
