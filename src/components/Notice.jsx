@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import reducer, { setNoticeToggle } from '../__redux/slice';
+import { setNoticeToggle } from '../__redux/slice';
 
 export default function Notice({}) {
   const dispatch = useDispatch();

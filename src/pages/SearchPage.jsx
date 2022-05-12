@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 
-import Title from '../components/Title';
+import Title from '../commons/Title';
 import SearchBar from '../components/SearchBar';
 import Category from '../components/Category';
 import MovieList from '../components/MovieList';

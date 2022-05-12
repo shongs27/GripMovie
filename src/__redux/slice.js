@@ -9,24 +9,7 @@ import { FAVORITE_MOVIES, getItem } from '../utils/storage';
 const initialState = {
   searchField: '',
   searchPage: 1,
-  searchedMovies: [
-    // {
-    //   Title: 'Iron Man: Armored Adventures',
-    //   Year: '2008–2012',
-    //   imdbID: 'tt0837143',
-    //   Type: 'series',
-    //   Poster:
-    //     'https://m.media-amazon.com/images/M/MV5BZWNjZTJjZmYtYjhjZS00ZjgwLWFjY2UtMzBlMDkzZmM3M2FiXkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg',
-    // },
-    // {
-    //   Title: 'Man of Iron',
-    //   Year: '1981',
-    //   imdbID: 'tt0082222',
-    //   Type: 'movie',
-    //   Poster:
-    //     'https://m.media-amazon.com/images/M/MV5BMTM5MzI3NTM5Nl5BMl5BanBnXkFtZTgwMTU0MjkwMTE@._V1_SX300.jpg',
-    // },
-  ],
+  searchedMovies: [],
   favoriteMovies: [],
   selectedMovie: '',
   categoryCount: {
@@ -61,6 +44,21 @@ const reducers = {
       searchedMovies: reset
         ? newMovies
         : [...state.searchedMovies, ...newMovies],
+    };
+  },
+
+  changeSearchedMovies: (state, { payload: { favoriteID, toggleBoolean } }) => {
+    return {
+      ...state,
+      searchedMovies: state.searchedMovies.map((movie) => {
+        if (movie.imdbID === favoriteID) {
+          return {
+            ...movie,
+            favorite: toggleBoolean,
+          };
+        }
+        return { ...movie };
+      }),
     };
   },
 
@@ -110,6 +108,7 @@ export const {
   changeSearchField,
   changeSearchPage,
   setSearchedMovies,
+  changeSearchedMovies,
   setFavoriteMovies,
   setMoviesCategory,
   setNoticeToggle,
@@ -122,7 +121,7 @@ export function getSearchField(searchPage = 1) {
   return async (dispatch, getState) => {
     dispatch(changeSearchPage(searchPage));
 
-    const { searchField } = getState();
+    const { searchField, favoriteMovies } = getState();
     dispatch(getSearchCategory(searchField));
 
     const { Response, Search, totalResults, Error } = await fetchSearchField(
@@ -134,13 +133,24 @@ export function getSearchField(searchPage = 1) {
       dispatch(setNoticeToggle([true, '영화정보를 가져오는데 실패했습니다']));
     }
 
+    //search 항상 10개씩 들어옴
+    if (favoriteMovies.length) {
+      Search.forEach((searchMovie) => {
+        favoriteMovies.forEach((favoriteMovie) => {
+          if (searchMovie.imdbID === favoriteMovie.imdbID) {
+            searchMovie['favorite'] = true;
+          }
+        });
+      });
+    }
+
     dispatch(setSearchedMovies({ newMovies: Search, reset: true }));
   };
 }
 
 export function getSearchNextPage() {
   return async (dispatch, getState) => {
-    const { searchField, searchPage } = getState();
+    const { searchField, searchPage, favoriteMovies } = getState();
 
     const nextPage = searchPage + 1;
     dispatch(changeSearchPage(nextPage));
@@ -152,6 +162,16 @@ export function getSearchNextPage() {
 
     if (Response === 'False') {
       console.log('더이상 보여줄 화면이 없습니다');
+    }
+
+    if (favoriteMovies.length) {
+      Search.forEach((searchMovie) => {
+        favoriteMovies.forEach((favoriteMovie) => {
+          if (searchMovie.imdbID === favoriteMovie.imdbID) {
+            searchMovie['favorite'] = true;
+          }
+        });
+      });
     }
 
     dispatch(setSearchedMovies({ newMovies: Search }));

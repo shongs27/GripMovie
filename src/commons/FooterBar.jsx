@@ -1,3 +1,15 @@
+import styles from './FooterBar.module.scss';
+
 export default function FooterBar() {
-  return <div>푸터바예요</div>;
+  return (
+    <ul className={styles.button}>
+      <li>
+        <button>앞으로</button>
+      </li>
+
+      <li>
+        <button>뒤로</button>
+      </li>
+    </ul>
+  );
 }

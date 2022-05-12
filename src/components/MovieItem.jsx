@@ -1,29 +1,21 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef } from 'react';
 import { FavoritesButton } from '../commons/FavoritesButton';
-import { EmptyStarIcon } from '../assets/svg';
+import { EmptyStarIcon, FullStarIcon } from '../assets/svg';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadFavoriteMovies, selectMovie } from '../__redux/slice';
+import {
+  changeSearchedMovies,
+  loadFavoriteMovies,
+  selectMovie,
+} from '../__redux/slice';
 import { FAVORITE_MOVIES, getItem, setItem } from '../utils/storage';
 
-export default forwardRef(function MovieItem({ movie }, ref) {
+export default forwardRef(function MovieItem({ movie, favorite }, ref) {
   const { Title, Year, imdbID, Type, Poster } = movie;
 
   const dispatch = useDispatch();
-  const selectedMovie = useSelector((state) => state.selectedMovie);
 
   function handleClick() {
     dispatch(selectMovie(imdbID));
-  }
-
-  function handleCancel() {
-    dispatch(selectMovie());
-  }
-
-  function handleRegister() {
-    // const prev = getItem(FAVORITE_MOVIES);
-
-    setItem(FAVORITE_MOVIES, [...getItem(FAVORITE_MOVIES), selectedMovie]);
-    dispatch(loadFavoriteMovies());
   }
 
   return (
@@ -31,7 +23,8 @@ export default forwardRef(function MovieItem({ movie }, ref) {
       ref={ref}
       style={{ width: '200px', height: '400px', backgroundColor: 'blue' }}
     >
-      <EmptyStarIcon />
+      {favorite ? <FullStarIcon /> : <EmptyStarIcon />}
+
       <button type="button" onClick={handleClick}>
         <span>{Title}</span>
         <span>{Year}</span>
@@ -48,12 +41,6 @@ export default forwardRef(function MovieItem({ movie }, ref) {
           <img src={Poster} width="200px" height="300px" />
         )}
       </button>
-      {selectedMovie && (
-        <FavoritesButton
-          handleRegister={handleRegister}
-          handleCancel={handleCancel}
-        />
-      )}
     </div>
   );
 });

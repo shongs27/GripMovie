@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { useEffect } from 'react';
 
 const Container = styled.div(({ clientX, clientY }) => ({
   position: 'fixed',
@@ -21,12 +20,25 @@ const Container = styled.div(({ clientX, clientY }) => ({
   },
 }));
 
-export function FavoritesButton({ handleRegister, handleCancel }) {
+export function FavoritesButton({
+  handleRegister,
+  handleCancel,
+  handleExpel,
+  favorite,
+}) {
+  console.log(favorite);
   return (
     <Container>
-      <button type="button" onClick={handleRegister}>
-        즐겨찾기
-      </button>
+      {favorite ? (
+        <button type="button" onClick={handleExpel}>
+          즐겨찾기 제거
+        </button>
+      ) : (
+        <button type="button" onClick={handleRegister}>
+          즐겨찾기
+        </button>
+      )}
+
       <button type="button" onClick={handleCancel}>
         취소
       </button>
