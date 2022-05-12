@@ -19,15 +19,9 @@ export function getItem(key) {
 }
 
 export function setItem(key, value) {
-  let prevItem;
-  try {
-    prevItem = localStorage.getItem(key);
-  } catch (e) {
-    return;
-  }
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch (e) {
-    localStorage.setItem(key, prevItem);
+    localStorage.setItem(key, localStorage.getItem(key));
   }
 }

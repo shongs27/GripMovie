@@ -27,7 +27,7 @@ export function FavoritesButton({ handleRegister, handleCancel }) {
       <button type="button" onClick={handleRegister}>
         즐겨찾기
       </button>
-      <button type="button" onClick={() => handleCancel('')}>
+      <button type="button" onClick={handleCancel}>
         취소
       </button>
     </Container>

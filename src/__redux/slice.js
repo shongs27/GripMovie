@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 // import { equal } from './utils';
 
 import { fetchSearchCategory, fetchSearchField } from '../services/api';
+import { FAVORITE_MOVIES, getItem } from '../utils/storage';
 
 // import { saveItem } from './services/storage';
 
@@ -163,7 +164,7 @@ export function getSearchCategory(searchField) {
     const CATEGORY = ['movie', 'series', 'episode'];
     const responses = await Promise.all([
       CATEGORY.reduce(
-        (acc, category) => [...acc, fetchSearchCategory(searchField, category)],
+        (arr, category) => [...arr, fetchSearchCategory(searchField, category)],
         []
       ),
     ]);
@@ -178,5 +179,15 @@ export function getSearchCategory(searchField) {
         );
       }
     });
+  };
+}
+
+export function loadFavoriteMovies() {
+  return async (dispatch) => {
+    const result = getItem(FAVORITE_MOVIES);
+
+    if (result) {
+      dispatch(setFavoriteMovies(result));
+    }
   };
 }

@@ -3,9 +3,8 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 
 import styles from './App.module.scss';
 
-import { FAVORITE_MOVIES, getItem } from './utils/storage';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSearchCategory, setFavoriteMovies } from './__redux/slice';
+import { loadFavoriteMovies } from './__redux/slice';
 
 import SearchPage from './pages/SearchPage';
 import FavoritesPage from './pages/FavoritesPage';
@@ -17,8 +16,7 @@ function App() {
   const toggle = useSelector((state) => state.notice.toggle);
 
   useEffect(() => {
-    const movies = getItem(FAVORITE_MOVIES);
-    dispatch(setFavoriteMovies(movies));
+    dispatch(loadFavoriteMovies());
   }, []);
 
   return (
