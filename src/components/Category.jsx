@@ -1,17 +1,17 @@
-// "Title": String,
-// "Year": String,
-// "imdbID": String,
-// "Type": String,
-// "Poster": String(URL)
+import styles from './Category.module.scss';
 
 export default function Category({ categoryCount }) {
   return (
-    <div>
-      {Object.entries(categoryCount).map(([type, count]) => (
-        <span key={`category-${type}`}>
-          {type} : {count}
-        </span>
-      ))}
+    <div className={styles.category}>
+      {Object.entries(categoryCount).map(([type, count]) => {
+        if (!count) return;
+
+        return (
+          <div key={`category-${type}`}>
+            {type} : {count}개
+          </div>
+        );
+      })}
     </div>
   );
 }

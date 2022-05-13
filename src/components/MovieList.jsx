@@ -1,46 +1,49 @@
 import { useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FavoritesButton } from '../commons/FavoritesButton';
-import { FAVORITE_MOVIES, getItem, setItem } from '../utils/storage';
 import {
   changeSearchedMovies,
   getSearchNextPage,
   loadFavoriteMovies,
   selectMovie,
 } from '../__redux/slice';
-import MovieItem from './MovieItem';
+import { FAVORITE_MOVIES, getItem, setItem } from '../utils/storage';
 
-export default function MovieList({ movies = [] }) {
+import styles from './MovieList.module.scss';
+
+import MovieItem from './MovieItem';
+import { FavoritesButton } from '../commons/FavoritesButton';
+
+export default function MovieList({ type, movies = [] }) {
   const dispatch = useDispatch();
 
   const selectedMovie = useSelector((state) => state.selectedMovie);
 
   function handleRegister() {
-    setItem(FAVORITE_MOVIES, [
-      ...getItem(FAVORITE_MOVIES),
-      { ...selectedMovie, favorite: true },
-    ]);
     dispatch(
       changeSearchedMovies({
         favoriteID: selectedMovie.imdbID,
         toggleBoolean: true,
       })
     );
+    setItem(FAVORITE_MOVIES, [
+      ...getItem(FAVORITE_MOVIES),
+      { ...selectedMovie, favorite: true },
+    ]);
     dispatch(loadFavoriteMovies());
     handleCancel();
   }
 
   function handleExpel() {
-    const filtered = getItem(FAVORITE_MOVIES).filter(
-      ({ imdbID }) => imdbID !== selectedMovie.imdbID
-    );
-    setItem(FAVORITE_MOVIES, filtered);
     dispatch(
       changeSearchedMovies({
         favoriteID: selectedMovie.imdbID,
         toggleBoolean: false,
       })
     );
+    const filtered = getItem(FAVORITE_MOVIES).filter(
+      ({ imdbID }) => imdbID !== selectedMovie.imdbID
+    );
+    setItem(FAVORITE_MOVIES, filtered);
     dispatch(loadFavoriteMovies());
     handleCancel();
   }
@@ -49,13 +52,10 @@ export default function MovieList({ movies = [] }) {
     dispatch(selectMovie());
   }
 
-  //observer는 DOM이 아니라 정보를 기억한다
   const observer = useRef();
   const lastElementRef = useCallback((node) => {
-    //초기화
     if (observer.current) observer.current.disconnect();
 
-    //Observe 생성
     observer.current = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
         dispatch(getSearchNextPage());
@@ -64,19 +64,23 @@ export default function MovieList({ movies = [] }) {
     if (node) observer.current.observe(node);
   }, []);
 
+  if (!movies.length) {
+    return <div className={styles.noSearch}>검색결과가 없습니다</div>;
+  }
+
   return (
-    <div>
+    <ul className={styles.listContainer}>
       {movies.map((movie, i) => {
-        if (movies.length === i + 1) {
+        if (type === 'search' && movies.length === i + 1) {
           return (
             <MovieItem
+              key={`${type}-${i}`}
               ref={lastElementRef}
               movie={movie}
-              favorite={movie.favorite}
             />
           );
         }
-        return <MovieItem movie={movie} favorite={movie.favorite} />;
+        return <MovieItem key={`${type}-${i}`} movie={movie} />;
       })}
 
       {selectedMovie && (
@@ -84,9 +88,9 @@ export default function MovieList({ movies = [] }) {
           handleRegister={handleRegister}
           handleExpel={handleExpel}
           handleCancel={handleCancel}
-          favorite={selectedMovie.favorite}
+          selectedMovie={selectedMovie}
         />
       )}
-    </div>
+    </ul>
   );
 }

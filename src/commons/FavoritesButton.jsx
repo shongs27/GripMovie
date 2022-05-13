@@ -1,34 +1,15 @@
-import styled from '@emotion/styled';
-
-const Container = styled.div(({ clientX, clientY }) => ({
-  position: 'fixed',
-  top: '50%',
-  left: '50%',
-
-  width: '200px',
-  height: '50px',
-  marginLeft: '-100px',
-  marginTop: '-25px',
-
-  zIndex: 9999,
-  display: 'flex',
-  justifyContent: 'center',
-
-  '& button': {
-    width: '100%',
-    height: '100%',
-  },
-}));
+import styles from './FavoritesButton.module.scss';
 
 export function FavoritesButton({
   handleRegister,
   handleCancel,
   handleExpel,
-  favorite,
+  selectedMovie: { Title, favorite },
 }) {
-  console.log(favorite);
   return (
-    <Container>
+    <div className={styles.modal}>
+      <p className={styles.title}>{Title}</p>
+
       {favorite ? (
         <button type="button" onClick={handleExpel}>
           즐겨찾기 제거
@@ -42,6 +23,9 @@ export function FavoritesButton({
       <button type="button" onClick={handleCancel}>
         취소
       </button>
-    </Container>
+      <button type="button" className={styles.modalOut} onClick={handleCancel}>
+        <div />
+      </button>
+    </div>
   );
 }

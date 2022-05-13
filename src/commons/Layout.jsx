@@ -1,24 +1,23 @@
 import { Outlet } from 'react-router-dom';
 
-import Title from './Title';
+import styles from './Layout.module.scss';
+
 import FooterBar from './FooterBar';
 
 export default function Layout() {
-  // const toggle = useSelector((state) => state.notice.toggle);
-
   return (
-    <>
+    <div className={styles.layoutContainer}>
       <header>
-        <Title />
+        <h1 className={styles.title}>Grip Movie</h1>
       </header>
 
-      <main>
+      <main className={styles.main}>
         <Outlet />
       </main>
 
-      <footer>
+      <footer className={styles.footer}>
         <FooterBar />
       </footer>
-    </>
+    </div>
   );
 }

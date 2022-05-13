@@ -1,0 +1,63 @@
+.itemContainer {
+  width: 300px;
+  height: 400px;
+
+  button {
+    text-align: left;
+    background-color: inherit;
+    color: white;
+    font-size: 1em;
+
+    .posterContainer {
+      width: 300px;
+      height: 250px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        width: 200px;
+        height: 200px;
+        border-radius: 10px;
+      }
+
+      .exclamationIcon {
+        width: 200px;
+        height: 200px;
+        border: 2px solid gray;
+        border-radius: 10px;
+        fill: red;
+      }
+    }
+
+    .introContainer {
+      display: flex;
+      justify-content: center;
+
+      .emptyStarIcon {
+        width: 60px;
+        height: 60px;
+        fill: none;
+        stroke: #3498db;
+        stroke-width: 50px;
+        margin-right: 15px;
+        margin-top: 15px;
+      }
+
+      .fullStarIcon {
+        fill: #3498db;
+      }
+
+      .intro {
+        margin-top: 15px;
+
+        & > p:first-child {
+          font-weight: bold;
+          font-size: 1.2em;
+          color: #3498db;
+        }
+      }
+    }
+  }
+}

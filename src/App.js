@@ -13,7 +13,7 @@ import SearchPage from './pages/SearchPage';
 import FavoritesPage from './pages/FavoritesPage';
 
 function App() {
-  const toggle = useSelector((state) => state.notice.toggle);
+  const notice = useSelector((state) => state.notice);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -23,11 +23,13 @@ function App() {
   return (
     <div className={styles.app}>
       <Notice />
-      <div className={cx(styles.container, { [styles.blocked]: toggle })}>
-        <Routes element={<Layout />}>
-          <Route path="/" element={<SearchPage />} />
-          <Route path="favorites" element={<FavoritesPage />} />
-          <Route path="*" element={<Navigate to="/" />} />
+      <div className={cx(styles.container, { [styles.blocked]: notice })}>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<SearchPage />} />
+            <Route path="favorites" element={<FavoritesPage />} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Route>
         </Routes>
       </div>
     </div>

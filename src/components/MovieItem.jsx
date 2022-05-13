@@ -1,16 +1,13 @@
 import { forwardRef } from 'react';
-import { FavoritesButton } from '../commons/FavoritesButton';
-import { EmptyStarIcon, FullStarIcon } from '../assets/svg';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  changeSearchedMovies,
-  loadFavoriteMovies,
-  selectMovie,
-} from '../__redux/slice';
-import { FAVORITE_MOVIES, getItem, setItem } from '../utils/storage';
+import { useDispatch } from 'react-redux';
+import { selectMovie } from '../__redux/slice';
 
-export default forwardRef(function MovieItem({ movie, favorite }, ref) {
-  const { Title, Year, imdbID, Type, Poster } = movie;
+import styles from './MovieItem.module.scss';
+import cx from 'classnames';
+import { ExclamationIcon, FullStarIcon } from '../assets/svg';
+
+export default forwardRef(function MovieItem({ movie }, ref) {
+  const { Title, Year, imdbID, Type, Poster, favorite } = movie;
 
   const dispatch = useDispatch();
 
@@ -18,29 +15,35 @@ export default forwardRef(function MovieItem({ movie, favorite }, ref) {
     dispatch(selectMovie(imdbID));
   }
 
+  function handleError(e) {
+    e.currentTarget.src =
+      'https://velog.velcdn.com/images/2ujin/post/bbc6b78c-5fdb-4228-adb7-8d3e79679bee/IMG_0290.PNG';
+  }
+
   return (
-    <div
-      ref={ref}
-      style={{ width: '200px', height: '400px', backgroundColor: 'blue' }}
-    >
-      {favorite ? <FullStarIcon /> : <EmptyStarIcon />}
-
+    <li ref={ref} className={styles.itemContainer}>
       <button type="button" onClick={handleClick}>
-        <span>{Title}</span>
-        <span>{Year}</span>
-        <span>{imdbID}</span>
-        <span>{Type}</span>
+        <div className={styles.posterContainer}>
+          {Poster === 'N/A' ? (
+            <ExclamationIcon className={styles.exclamationIcon} />
+          ) : (
+            <img src={Poster} onError={handleError} title={imdbID} />
+          )}
+        </div>
 
-        {Poster === 'N/A' ? (
-          <div
-            style={{ width: '200px', height: '300px', backgroundColor: 'red' }}
-          >
-            이미지가 없습니다
+        <div className={styles.introContainer}>
+          <FullStarIcon
+            className={cx(styles.emptyStarIcon, {
+              [styles.fullStarIcon]: favorite,
+            })}
+          />
+          <div className={styles.intro}>
+            <p>{Title}</p>
+            <p>개봉 : {Year}</p>
+            <p>장르 : {Type}</p>
           </div>
-        ) : (
-          <img src={Poster} width="200px" height="300px" />
-        )}
+        </div>
       </button>
-    </div>
+    </li>
   );
 });

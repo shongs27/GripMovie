@@ -1,10 +1,10 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { changeSearchField, getSearchField } from '../__redux/slice';
 
-import Title from '../commons/Title';
+import PageTitle from '../commons/PageTitle';
 import SearchBar from '../components/SearchBar';
 import Category from '../components/Category';
 import MovieList from '../components/MovieList';
-import { changeSearchField, getSearchField } from '../__redux/slice';
 
 export default function SearchPage() {
   const dispatch = useDispatch();
@@ -24,15 +24,15 @@ export default function SearchPage() {
   }
 
   return (
-    <div>
-      <Title title="MovieHome" />
+    <>
+      <PageTitle title="검색 페이지" />
       <SearchBar
         searchField={searchField}
         handleSearchChange={handleSearchChange}
         handleSearchSubmit={handleSearchSubmit}
       />
       <Category categoryCount={categoryCount} />
-      <MovieList movies={searchedMovies} />
-    </div>
+      <MovieList type="search" movies={searchedMovies} />
+    </>
   );
 }

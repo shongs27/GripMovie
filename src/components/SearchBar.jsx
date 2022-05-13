@@ -1,5 +1,5 @@
-import { SearchIcon } from '../assets/svg';
 import styles from './SearchBar.module.scss';
+import { SearchIcon } from '../assets/svg';
 
 export default function SearchBar({
   searchField,
@@ -12,12 +12,18 @@ export default function SearchBar({
   }
 
   return (
-    <form onSubmit={handleSearchSubmit}>
-      <button type="submit" style={{ width: '40px', height: '40px' }}>
-        <SearchIcon />
+    <form className={styles.searchForm} onSubmit={handleSearchSubmit}>
+      <button type="submit" className={styles.searchButton}>
+        <SearchIcon className={styles.searchIcon} />
       </button>
 
-      <input type="text" onChange={onChange} value={searchField} />
+      <input
+        type="text"
+        className={styles.searchInput}
+        onChange={onChange}
+        value={searchField}
+        placeholder="search"
+      />
     </form>
   );
 }

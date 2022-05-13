@@ -1,10 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-// import { equal } from './utils';
 
 import { fetchSearchCategory, fetchSearchField } from '../services/api';
 import { FAVORITE_MOVIES, getItem } from '../utils/storage';
-
-// import { saveItem } from './services/storage';
 
 const initialState = {
   searchField: '',
@@ -17,10 +14,7 @@ const initialState = {
     series: 0,
     episode: 0,
   },
-  notice: {
-    toggle: false,
-    content: '',
-  },
+  notice: '',
 };
 
 const reducers = {
@@ -73,27 +67,26 @@ const reducers = {
     return {
       ...state,
       categoryCount: {
-        ...state,
+        ...state.categoryCount,
         [type]: totals,
       },
     };
   },
 
-  setNoticeToggle: (state, { payload: [toggle, content] }) => {
+  setNoticeToggle: (state, { payload: notice }) => {
     return {
       ...state,
-      notice: {
-        toggle,
-        content,
-      },
+      notice,
     };
   },
 
   selectMovie: (state, { payload: imdbID }) => {
-    const { searchedMovies } = state;
+    const { searchedMovies, favoriteMovies } = state;
     return {
       ...state,
-      selectedMovie: searchedMovies.find((movie) => movie.imdbID === imdbID),
+      selectedMovie:
+        searchedMovies.find((movie) => movie.imdbID === imdbID) ||
+        favoriteMovies.find((movie) => movie.imdbID === imdbID),
     };
   },
 };
@@ -130,7 +123,7 @@ export function getSearchField(searchPage = 1) {
     );
 
     if (Response === 'False') {
-      dispatch(setNoticeToggle([true, '영화정보를 가져오는데 실패했습니다']));
+      dispatch(setNoticeToggle('검색결과가 없습니다'));
     }
 
     //search 항상 10개씩 들어옴
@@ -161,7 +154,7 @@ export function getSearchNextPage() {
     );
 
     if (Response === 'False') {
-      console.log('더이상 보여줄 화면이 없습니다');
+      dispatch(setNoticeToggle('더 이상 보여줄 화면이 없습니다'));
     }
 
     if (favoriteMovies.length) {
@@ -179,15 +172,15 @@ export function getSearchNextPage() {
 }
 
 export function getSearchCategory(searchField) {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     // movie, series, episode
     const CATEGORY = ['movie', 'series', 'episode'];
-    const responses = await Promise.all([
+    const responses = await Promise.all(
       CATEGORY.reduce(
         (arr, category) => [...arr, fetchSearchCategory(searchField, category)],
         []
-      ),
-    ]);
+      )
+    );
     // fetchSearchCategory(searchField, 'movie'),
     // fetchSearchCategory(searchField, 'series'),
     // fetchSearchCategory(searchField, 'episode'),
