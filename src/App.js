@@ -1,24 +1,24 @@
-import { useEffect } from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { useEffect } from 'react'
+import { Route, Routes, Navigate } from 'react-router-dom'
 
-import { useDispatch, useSelector } from 'react-redux';
-import { loadFavoriteMovies } from './__redux/slice';
+import { useDispatch, useSelector } from 'react-redux'
+import { loadFavoriteMovies } from './__redux/slice'
 
-import styles from './App.module.scss';
-import cx from 'classnames';
+import styles from './App.module.scss'
+import cx from 'classnames'
 
-import Notice from './components/Notice';
-import Layout from './commons/Layout';
-import SearchPage from './pages/SearchPage';
-import FavoritesPage from './pages/FavoritesPage';
+import Notice from './components/Notice'
+import Layout from './commons/Layout'
+import SearchPage from './pages/SearchPage'
+import FavoritesPage from './pages/FavoritesPage'
 
-function App() {
-  const notice = useSelector((state) => state.notice);
-  const dispatch = useDispatch();
+const App = () => {
+  const notice = useSelector((state) => state.notice)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(loadFavoriteMovies());
-  }, []);
+    dispatch(loadFavoriteMovies())
+  }, [dispatch])
 
   return (
     <div className={styles.app}>
@@ -33,7 +33,7 @@ function App() {
         </Routes>
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
