@@ -1,12 +1,9 @@
+@use '/src/styles/colors';
+
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-
-  &::before,
-  &::after {
-    box-sizing: border-box;
-  }
 
   -ms-overflow-style: none; // IE and Edge
   scrollbar-width: none; // Firefox
@@ -20,7 +17,7 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #dee3f9;
+  background-color: colors.$WHITE;
 }
 
 .container {
@@ -28,8 +25,8 @@
   width: 360px;
   height: 760px;
   padding: 30px 30px;
-  background-color: black;
-  color: white;
+  background-color: colors.$BLACK;
+  color: colors.$WHITE;
   border-radius: 40px;
 }
 

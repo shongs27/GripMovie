@@ -1,3 +1,5 @@
+@use '/src/styles/colors';
+
 .itemContainer {
   width: 300px;
   height: 400px;
@@ -5,7 +7,7 @@
   button {
     text-align: left;
     background-color: inherit;
-    color: white;
+    color: colors.$WHITE;
     font-size: 1em;
 
     .posterContainer {
@@ -25,9 +27,9 @@
       .exclamationIcon {
         width: 200px;
         height: 200px;
-        border: 2px solid gray;
+        border: 2px solid colors.$GRAY;
         border-radius: 10px;
-        fill: red;
+        fill: colors.$RED;
       }
     }
 
@@ -39,14 +41,14 @@
         width: 60px;
         height: 60px;
         fill: none;
-        stroke: #3498db;
+        stroke: colors.$BLUE;
         stroke-width: 50px;
         margin-right: 15px;
         margin-top: 15px;
       }
 
       .fullStarIcon {
-        fill: #3498db;
+        fill: colors.$BLUE;
       }
 
       .intro {
@@ -55,7 +57,7 @@
         & > p:first-child {
           font-weight: bold;
           font-size: 1.2em;
-          color: #3498db;
+          color: colors.$BLUE;
         }
       }
     }

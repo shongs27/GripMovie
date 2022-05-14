@@ -1,6 +1,6 @@
-import styles from './FavoritesButton.module.scss';
+import styles from './FavoritesModal.module.scss';
 
-export function FavoritesButton({
+export default function FavoritesModal({
   handleRegister,
   handleCancel,
   handleExpel,

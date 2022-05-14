@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Route, Routes, Navigate } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { loadFavoriteMovies } from './__redux/slice'
+import { loadFavoriteMovies } from './slice'
 
 import styles from './App.module.scss'
 import cx from 'classnames'
@@ -13,7 +13,7 @@ import SearchPage from './pages/SearchPage'
 import FavoritesPage from './pages/FavoritesPage'
 
 const App = () => {
-  const notice = useSelector((state) => state.notice)
+  const isNotice = useSelector((state) => state.notice)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const App = () => {
   return (
     <div className={styles.app}>
       <Notice />
-      <div className={cx(styles.container, { [styles.blocked]: notice })}>
+      <div className={cx(styles.container, { [styles.blocked]: isNotice })}>
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<SearchPage />} />

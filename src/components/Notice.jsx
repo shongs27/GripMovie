@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { setNoticeToggle } from '../__redux/slice';
+import { setNoticeToggle } from '../slice';
 
 import style from './Notice.module.scss';
 

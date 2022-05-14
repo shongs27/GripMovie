@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { changeSearchField, getSearchField } from '../__redux/slice';
+import { changeSearchField, getSearchField } from '../slice';
 
 import PageTitle from '../commons/PageTitle';
 import SearchBar from '../components/SearchBar';

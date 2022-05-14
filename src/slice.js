@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { fetchSearchCategory, fetchSearchField } from '../services/api'
-import { FAVORITE_MOVIES, getItem } from '../utils/storage'
+import { fetchSearchCategory, fetchSearchField } from './services/api'
+import { FAVORITE_MOVIES, getItem } from './utils/storage'
 
 const initialState = {
   searchField: '',
@@ -32,27 +32,28 @@ const reducers = {
     }
   },
 
-  setSearchedMovies: (state, { payload: { newMovies, reset } }) => {
+  setSearchedMovies: (state, { payload: { Search, searchPage } }) => {
     return {
       ...state,
-      searchedMovies: reset
-        ? newMovies
-        : [...state.searchedMovies, ...newMovies],
+      searchedMovies:
+        searchPage === 1 ? Search : [...state.searchedMovies, ...Search],
     }
   },
 
-  changeSearchedMovies: (state, { payload: { favoriteID, toggleBoolean } }) => {
+  changeSearchedMovies: (state, { payload: { favoriteID, favorite } }) => {
+    const changedMovies = state.searchedMovies.map((movie) => {
+      if (movie.imdbID === favoriteID) {
+        return {
+          ...movie,
+          favorite,
+        }
+      }
+      return { ...movie }
+    })
+
     return {
       ...state,
-      searchedMovies: state.searchedMovies.map((movie) => {
-        if (movie.imdbID === favoriteID) {
-          return {
-            ...movie,
-            favorite: toggleBoolean,
-          }
-        }
-        return { ...movie }
-      }),
+      searchedMovies: changedMovies,
     }
   },
 
@@ -112,17 +113,15 @@ export default reducer
 
 export function getSearchCategory(searchField) {
   return async (dispatch) => {
-    // movie, series, episode
+    // CATEGORY API : movie, series, episode
     const CATEGORY = ['movie', 'series', 'episode']
+
     const responses = await Promise.all(
       CATEGORY.reduce(
         (arr, category) => [...arr, fetchSearchCategory(searchField, category)],
         [],
       ),
     )
-    // fetchSearchCategory(searchField, 'movie'),
-    // fetchSearchCategory(searchField, 'series'),
-    // fetchSearchCategory(searchField, 'episode'),
 
     responses.forEach(({ Response, totalResults }, index) => {
       if (Response === 'True') {
@@ -134,12 +133,27 @@ export function getSearchCategory(searchField) {
   }
 }
 
+function favoriteAdd(favoriteMovies, Search) {
+  if (favoriteMovies.length) {
+    Search.forEach((searchMovie) => {
+      favoriteMovies.forEach((favoriteMovie) => {
+        if (searchMovie.imdbID === favoriteMovie.imdbID) {
+          searchMovie.favorite = true
+        }
+      })
+    })
+  }
+}
+
 export function getSearchField(searchPage = 1) {
   return async (dispatch, getState) => {
-    dispatch(changeSearchPage(searchPage))
-
     const { searchField, favoriteMovies } = getState()
+
+    // 카테고리 받아오기
     dispatch(getSearchCategory(searchField))
+
+    // 찾는페이지 초기화
+    dispatch(changeSearchPage(searchPage))
 
     const { Response, Search } = await fetchSearchField(
       searchField,
@@ -147,48 +161,30 @@ export function getSearchField(searchPage = 1) {
     )
 
     if (Response === 'False') {
-      dispatch(setNoticeToggle('검색결과가 없습니다'))
+      return dispatch(setNoticeToggle('검색결과가 없습니다'))
     }
 
-    // search 항상 10개씩 들어옴
-    if (favoriteMovies.length) {
-      Search.forEach((searchMovie) => {
-        favoriteMovies.forEach((favoriteMovie) => {
-          if (searchMovie.imdbID === favoriteMovie.imdbID) {
-            searchMovie.favorite = true
-          }
-        })
-      })
-    }
+    // 찾은영화 정보에 로컬에서의 즐겨찾기 정보 업데이트
+    favoriteAdd(favoriteMovies, Search)
 
-    dispatch(setSearchedMovies({ newMovies: Search, reset: true }))
+    dispatch(setSearchedMovies({ Search, searchPage }))
   }
 }
 
 export function getSearchNextPage() {
   return async (dispatch, getState) => {
     const { searchField, searchPage, favoriteMovies } = getState()
-
     const nextPage = searchPage + 1
+
     dispatch(changeSearchPage(nextPage))
 
     const { Response, Search } = await fetchSearchField(searchField, nextPage)
 
-    if (Response === 'False') {
-      dispatch(setNoticeToggle('더 이상 보여줄 화면이 없습니다'))
-    }
+    if (Response === 'False') return
 
-    if (favoriteMovies.length) {
-      Search.forEach((searchMovie) => {
-        favoriteMovies.forEach((favoriteMovie) => {
-          if (searchMovie.imdbID === favoriteMovie.imdbID) {
-            searchMovie.favorite = true
-          }
-        })
-      })
-    }
+    favoriteAdd(favoriteMovies, Search)
 
-    dispatch(setSearchedMovies({ newMovies: Search }))
+    dispatch(setSearchedMovies({ Search }))
   }
 }
 
@@ -196,8 +192,6 @@ export function loadFavoriteMovies() {
   return async (dispatch) => {
     const result = getItem(FAVORITE_MOVIES)
 
-    if (result) {
-      dispatch(setFavoriteMovies(result))
-    }
+    dispatch(setFavoriteMovies(result))
   }
 }

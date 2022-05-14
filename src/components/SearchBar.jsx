@@ -7,8 +7,11 @@ export default function SearchBar({
   handleSearchSubmit,
 }) {
   function onChange(e) {
-    const target = e.target.value;
-    handleSearchChange(target);
+    const {
+      target: { value },
+    } = e;
+
+    handleSearchChange(value);
   }
 
   return (

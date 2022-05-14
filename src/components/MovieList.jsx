@@ -1,49 +1,29 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   changeSearchedMovies,
   getSearchNextPage,
   loadFavoriteMovies,
   selectMovie,
-} from '../__redux/slice';
+} from '../slice';
+
 import { FAVORITE_MOVIES, getItem, setItem } from '../utils/storage';
 
 import styles from './MovieList.module.scss';
 
 import MovieItem from './MovieItem';
-import { FavoritesButton } from '../commons/FavoritesButton';
+import FavoritesModal from '../commons/FavoritesModal';
 
 export default function MovieList({ type, movies = [] }) {
   const dispatch = useDispatch();
-
   const selectedMovie = useSelector((state) => state.selectedMovie);
+  const categoryCount = useSelector((state) => state.categoryCount);
 
-  function handleRegister() {
-    dispatch(
-      changeSearchedMovies({
-        favoriteID: selectedMovie.imdbID,
-        toggleBoolean: true,
-      })
-    );
-    setItem(FAVORITE_MOVIES, [
-      ...getItem(FAVORITE_MOVIES),
-      { ...selectedMovie, favorite: true },
-    ]);
-    dispatch(loadFavoriteMovies());
-    handleCancel();
-  }
+  const observer = useRef();
+  const listDOM = useRef();
 
-  function handleExpel() {
-    dispatch(
-      changeSearchedMovies({
-        favoriteID: selectedMovie.imdbID,
-        toggleBoolean: false,
-      })
-    );
-    const filtered = getItem(FAVORITE_MOVIES).filter(
-      ({ imdbID }) => imdbID !== selectedMovie.imdbID
-    );
-    setItem(FAVORITE_MOVIES, filtered);
+  function UpdateFavoriteMovies(movies) {
+    setItem(FAVORITE_MOVIES, movies);
     dispatch(loadFavoriteMovies());
     handleCancel();
   }
@@ -52,7 +32,35 @@ export default function MovieList({ type, movies = [] }) {
     dispatch(selectMovie());
   }
 
-  const observer = useRef();
+  function handleRegister() {
+    dispatch(
+      changeSearchedMovies({
+        favoriteID: selectedMovie.imdbID,
+        favorite: true,
+      })
+    );
+
+    const added = [
+      ...getItem(FAVORITE_MOVIES),
+      { ...selectedMovie, favorite: true },
+    ];
+    UpdateFavoriteMovies(added);
+  }
+
+  function handleExpel() {
+    dispatch(
+      changeSearchedMovies({
+        favoriteID: selectedMovie.imdbID,
+        favorite: false,
+      })
+    );
+
+    const filtered = getItem(FAVORITE_MOVIES).filter(
+      ({ imdbID }) => imdbID !== selectedMovie.imdbID
+    );
+    UpdateFavoriteMovies(filtered);
+  }
+
   const lastElementRef = useCallback((node) => {
     if (observer.current) observer.current.disconnect();
 
@@ -64,27 +72,27 @@ export default function MovieList({ type, movies = [] }) {
     if (node) observer.current.observe(node);
   }, []);
 
-  if (!movies.length) {
-    return <div className={styles.noSearch}>검색결과가 없습니다</div>;
+  useEffect(() => {
+    const dom = listDOM.current;
+    if (dom) dom.scrollTo(0, 0);
+  }, [categoryCount]);
+
+  if (type == 'search' && !movies.length) {
+    return <div className={styles.noSearch}>검색 결과가 없습니다</div>;
   }
 
   return (
-    <ul className={styles.listContainer}>
-      {movies.map((movie, i) => {
-        if (type === 'search' && movies.length === i + 1) {
-          return (
-            <MovieItem
-              key={`${type}-${i}`}
-              ref={lastElementRef}
-              movie={movie}
-            />
-          );
-        }
-        return <MovieItem key={`${type}-${i}`} movie={movie} />;
-      })}
+    <ul ref={listDOM} className={styles.listContainer}>
+      {movies.map((movie, i) =>
+        type === 'search' && movies.length - 1 === i ? (
+          <MovieItem key={`${type}-${i}`} ref={lastElementRef} movie={movie} />
+        ) : (
+          <MovieItem key={`${type}-${i}`} movie={movie} />
+        )
+      )}
 
       {selectedMovie && (
-        <FavoritesButton
+        <FavoritesModal
           handleRegister={handleRegister}
           handleExpel={handleExpel}
           handleCancel={handleCancel}

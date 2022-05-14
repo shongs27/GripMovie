@@ -3,21 +3,22 @@
 
   position: relative;
   .searchButton {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+
     width: 2em;
     height: 80%;
     background-color: white;
     border: none;
-
-    position: absolute;
-    top: 5px;
-    left: 5px;
   }
 
   .searchInput {
     width: 300px;
     height: 100%;
-    font-size: 1.2em;
     padding: 0.4em 2em;
+    font-size: 1.2em;
+
     &:focus {
       outline: none;
     }

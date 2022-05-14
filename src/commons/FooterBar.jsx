@@ -16,7 +16,7 @@ export default function FooterBar() {
 
       <li>
         <button type="button">
-          <Link to="/favorites">
+          <Link to="favorites">
             <FullStarIcon className={styles.fullStarIcon} />
           </Link>
         </button>

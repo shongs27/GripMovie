@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { selectMovie } from '../__redux/slice';
+import { selectMovie } from '../slice';
 
 import styles from './MovieItem.module.scss';
 import cx from 'classnames';
