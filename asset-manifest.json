@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.fba5fdec.css",
-    "main.js": "/static/js/main.84f8c626.js",
-    "static/js/787.55a79d94.chunk.js": "/static/js/787.55a79d94.chunk.js",
-    "static/media/emptyStar.svg": "/static/media/emptyStar.2a1700e035f2a7237dd14ab4a7ce7ae9.svg",
-    "static/media/fullStar.svg": "/static/media/fullStar.c4d44ce72583a8100a8070da1547e845.svg",
-    "index.html": "/index.html",
-    "static/media/exclamation.svg": "/static/media/exclamation.570f794bce3c38c53e15a46e38f118c7.svg",
-    "static/media/search.svg": "/static/media/search.c1ac27e953b9eda24059abb5866514ce.svg",
-    "main.fba5fdec.css.map": "/static/css/main.fba5fdec.css.map",
-    "main.84f8c626.js.map": "/static/js/main.84f8c626.js.map",
-    "787.55a79d94.chunk.js.map": "/static/js/787.55a79d94.chunk.js.map"
+    "main.css": "/shongs27/GripMovie/static/css/main.fba5fdec.css",
+    "main.js": "/shongs27/GripMovie/static/js/main.9323ea56.js",
+    "static/js/787.55a79d94.chunk.js": "/shongs27/GripMovie/static/js/787.55a79d94.chunk.js",
+    "static/media/emptyStar.svg": "/shongs27/GripMovie/static/media/emptyStar.2a1700e035f2a7237dd14ab4a7ce7ae9.svg",
+    "index.html": "/shongs27/GripMovie/index.html",
+    "static/media/fullStar.svg": "/shongs27/GripMovie/static/media/fullStar.c4d44ce72583a8100a8070da1547e845.svg",
+    "static/media/exclamation.svg": "/shongs27/GripMovie/static/media/exclamation.570f794bce3c38c53e15a46e38f118c7.svg",
+    "static/media/search.svg": "/shongs27/GripMovie/static/media/search.c1ac27e953b9eda24059abb5866514ce.svg",
+    "main.fba5fdec.css.map": "/shongs27/GripMovie/static/css/main.fba5fdec.css.map",
+    "main.9323ea56.js.map": "/shongs27/GripMovie/static/js/main.9323ea56.js.map",
+    "787.55a79d94.chunk.js.map": "/shongs27/GripMovie/static/js/787.55a79d94.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.fba5fdec.css",
-    "static/js/main.84f8c626.js"
+    "static/js/main.9323ea56.js"
   ]
 }
