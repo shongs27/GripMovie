@@ -1,23 +1,24 @@
-import { forwardRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { selectMovie } from '../slice';
+import { forwardRef } from 'react'
+import { useDispatch } from 'react-redux'
+import { selectMovie } from '../slice'
 
-import styles from './MovieItem.module.scss';
-import cx from 'classnames';
-import { ExclamationIcon, FullStarIcon } from '../assets/svg';
+import styles from './MovieItem.module.scss'
+import cx from 'classnames'
+import { ExclamationIcon, FullStarIcon } from '../assets/svg'
 
-export default forwardRef(function MovieItem({ movie }, ref) {
-  const { Title, Year, imdbID, Type, Poster, favorite } = movie;
+export default forwardRef(({ movie }, ref) => {
+  const {
+    Title, Year, imdbID, Type, Poster, favorite,
+  } = movie
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   function handleClick() {
-    dispatch(selectMovie(imdbID));
+    dispatch(selectMovie(imdbID))
   }
 
   function handleError(e) {
-    e.currentTarget.src =
-      'https://velog.velcdn.com/images/2ujin/post/bbc6b78c-5fdb-4228-adb7-8d3e79679bee/IMG_0290.PNG';
+    e.currentTarget.src = 'https://velog.velcdn.com/images/2ujin/post/bbc6b78c-5fdb-4228-adb7-8d3e79679bee/IMG_0290.PNG'
   }
 
   return (
@@ -45,5 +46,5 @@ export default forwardRef(function MovieItem({ movie }, ref) {
         </div>
       </button>
     </li>
-  );
-});
+  )
+})

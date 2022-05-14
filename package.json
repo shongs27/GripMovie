@@ -1,4 +1,5 @@
 {
+  "homepage": "https://shongs27.github.io/GripMovie/",
   "name": "2week",
   "version": "0.1.0",
   "private": true,
@@ -11,13 +12,13 @@
     "@testing-library/user-event": "^14.1.1",
     "classnames": "^2.3.1",
     "eslint-config-airbnb": "^19.0.4",
+    "gh-pages": "^4.0.0",
     "react": "^18.1.0",
     "react-beautiful-dnd": "^13.1.0",
     "react-dom": "^18.1.0",
     "react-redux": "^8.0.1",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
-    "recoil": "^0.7.3-alpha.2",
     "sass": "^1.51.0",
     "web-vitals": "^2.1.4"
   },
@@ -25,7 +26,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build -r https://github.com/shongs27/GripMovie"
   },
   "eslintConfig": {
     "extends": [

@@ -1,7 +1,7 @@
-import styles from './FooterBar.module.scss';
-import { FullStarIcon, SearchIcon } from '../assets/svg';
+import styles from './FooterBar.module.scss'
+import { FullStarIcon, SearchIcon } from '../assets/svg'
 
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 
 export default function FooterBar() {
   return (
@@ -22,5 +22,5 @@ export default function FooterBar() {
         </button>
       </li>
     </ul>
-  );
+  )
 }

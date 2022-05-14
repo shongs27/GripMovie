@@ -52,6 +52,7 @@
       }
     ],
     // "max-lines": ["warn", 150],
+    "consistent-return": ["off"],
     "no-param-reassign": ["error", { "props": false }],
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],

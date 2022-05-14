@@ -1,5 +1,5 @@
-import styles from './SearchBar.module.scss';
-import { SearchIcon } from '../assets/svg';
+import styles from './SearchBar.module.scss'
+import { SearchIcon } from '../assets/svg'
 
 export default function SearchBar({
   searchField,
@@ -9,9 +9,9 @@ export default function SearchBar({
   function onChange(e) {
     const {
       target: { value },
-    } = e;
+    } = e
 
-    handleSearchChange(value);
+    handleSearchChange(value)
   }
 
   return (
@@ -28,5 +28,5 @@ export default function SearchBar({
         placeholder="search"
       />
     </form>
-  );
+  )
 }
