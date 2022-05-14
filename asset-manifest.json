@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/GripMovie/static/css/main.fba5fdec.css",
-    "main.js": "/GripMovie/static/js/main.cdb13e8a.js",
+    "main.js": "/GripMovie/static/js/main.9cae5f73.js",
     "static/js/787.55a79d94.chunk.js": "/GripMovie/static/js/787.55a79d94.chunk.js",
     "static/media/emptyStar.svg": "/GripMovie/static/media/emptyStar.2a1700e035f2a7237dd14ab4a7ce7ae9.svg",
     "static/media/fullStar.svg": "/GripMovie/static/media/fullStar.c4d44ce72583a8100a8070da1547e845.svg",
@@ -9,11 +9,11 @@
     "static/media/exclamation.svg": "/GripMovie/static/media/exclamation.570f794bce3c38c53e15a46e38f118c7.svg",
     "static/media/search.svg": "/GripMovie/static/media/search.c1ac27e953b9eda24059abb5866514ce.svg",
     "main.fba5fdec.css.map": "/GripMovie/static/css/main.fba5fdec.css.map",
-    "main.cdb13e8a.js.map": "/GripMovie/static/js/main.cdb13e8a.js.map",
+    "main.9cae5f73.js.map": "/GripMovie/static/js/main.9cae5f73.js.map",
     "787.55a79d94.chunk.js.map": "/GripMovie/static/js/787.55a79d94.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.fba5fdec.css",
-    "static/js/main.cdb13e8a.js"
+    "static/js/main.9cae5f73.js"
   ]
 }
