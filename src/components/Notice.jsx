@@ -1,17 +1,17 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { setNoticeToggle } from '../slice'
+import { useDispatch, useSelector } from 'react-redux';
+import { setNoticeToggle } from '../slice';
 
-import style from './Notice.module.scss'
+import style from './Notice.module.scss';
 
-export default function Notice({}) {
-  const dispatch = useDispatch()
-  const notice = useSelector((state) => state.notice)
+export default function Notice() {
+  const dispatch = useDispatch();
+  const notice = useSelector((state) => state.notice);
 
   function handleClick() {
-    dispatch(setNoticeToggle(''))
+    dispatch(setNoticeToggle(''));
   }
 
-  if (!notice) return
+  if (!notice) return undefined;
 
   return (
     <div className={style.container}>
@@ -21,5 +21,5 @@ export default function Notice({}) {
         확인
       </button>
     </div>
-  )
+  );
 }

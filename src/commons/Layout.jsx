@@ -1,8 +1,8 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom';
 
-import styles from './Layout.module.scss'
+import styles from './Layout.module.scss';
 
-import FooterBar from './FooterBar'
+import FooterBar from './FooterBar';
 
 export default function Layout() {
   return (
@@ -19,5 +19,5 @@ export default function Layout() {
         <FooterBar />
       </footer>
     </div>
-  )
+  );
 }

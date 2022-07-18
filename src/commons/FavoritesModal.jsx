@@ -1,4 +1,4 @@
-import styles from './FavoritesModal.module.scss'
+import styles from './FavoritesModal.module.scss';
 
 export default function FavoritesModal({
   handleRegister,
@@ -27,5 +27,5 @@ export default function FavoritesModal({
         <div />
       </button>
     </div>
-  )
+  );
 }

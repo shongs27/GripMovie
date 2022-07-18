@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchSearchCategory, fetchSearchField } from './services/api'
-import { FAVORITE_MOVIES, getItem } from './utils/storage'
+import { fetchSearchCategory, fetchSearchField } from './services/api';
+import { FAVORITE_MOVIES, getItem } from './utils/storage';
 
 const initialState = {
   searchField: '',
@@ -15,30 +15,23 @@ const initialState = {
     episode: 0,
   },
   notice: '',
-}
+};
 
 const reducers = {
-  changeSearchField: (state, { payload: searchField }) => {
-    return {
-      ...state,
-      searchField,
-    }
-  },
+  changeSearchField: (state, { payload: searchField }) => ({
+    ...state,
+    searchField,
+  }),
 
-  changeSearchPage: (state, { payload: searchPage }) => {
-    return {
-      ...state,
-      searchPage,
-    }
-  },
+  changeSearchPage: (state, { payload: searchPage }) => ({
+    ...state,
+    searchPage,
+  }),
 
-  setSearchedMovies: (state, { payload: { Search, searchPage } }) => {
-    return {
-      ...state,
-      searchedMovies:
-        searchPage === 1 ? Search : [...state.searchedMovies, ...Search],
-    }
-  },
+  setSearchedMovies: (state, { payload: { Search, searchPage } }) => ({
+    ...state,
+    searchedMovies: searchPage === 1 ? Search : [...state.searchedMovies, ...Search],
+  }),
 
   changeSearchedMovies: (state, { payload: { favoriteID, favorite } }) => {
     const changedMovies = state.searchedMovies.map((movie) => {
@@ -46,57 +39,51 @@ const reducers = {
         return {
           ...movie,
           favorite,
-        }
+        };
       }
-      return { ...movie }
-    })
+      return { ...movie };
+    });
 
     return {
       ...state,
       searchedMovies: changedMovies,
-    }
+    };
   },
 
-  setFavoriteMovies: (state, { payload: favoriteMovies }) => {
-    return {
-      ...state,
-      favoriteMovies,
-    }
-  },
+  setFavoriteMovies: (state, { payload: favoriteMovies }) => ({
+    ...state,
+    favoriteMovies,
+  }),
 
-  setMoviesCategory: (state, { payload: { type, totals } }) => {
-    return {
-      ...state,
-      categoryCount: {
-        ...state.categoryCount,
-        [type]: totals,
-      },
-    }
-  },
+  setMoviesCategory: (state, { payload: { type, totals } }) => ({
+    ...state,
+    categoryCount: {
+      ...state.categoryCount,
+      [type]: totals,
+    },
+  }),
 
-  setNoticeToggle: (state, { payload: notice }) => {
-    return {
-      ...state,
-      notice,
-    }
-  },
+  setNoticeToggle: (state, { payload: notice }) => ({
+    ...state,
+    notice,
+  }),
 
   selectMovie: (state, { payload: imdbID }) => {
-    const { searchedMovies, favoriteMovies } = state
+    const { searchedMovies, favoriteMovies } = state;
     return {
       ...state,
       selectedMovie:
-        searchedMovies.find((movie) => movie.imdbID === imdbID)
-        || favoriteMovies.find((movie) => movie.imdbID === imdbID),
-    }
+        searchedMovies.find((movie) => movie.imdbID === imdbID) ||
+        favoriteMovies.find((movie) => movie.imdbID === imdbID),
+    };
   },
-}
+};
 
 const { actions, reducer } = createSlice({
   name: 'app',
   initialState,
   reducers,
-})
+});
 
 export const {
   changeSearchField,
@@ -107,91 +94,87 @@ export const {
   setMoviesCategory,
   setNoticeToggle,
   selectMovie,
-} = actions
+} = actions;
 
-export default reducer
+export default reducer;
 
 export function getSearchCategory(searchField) {
   return async (dispatch) => {
     // CATEGORY API : movie, series, episode
-    const CATEGORY = ['movie', 'series', 'episode']
+    const CATEGORY = ['movie', 'series', 'episode'];
 
     const responses = await Promise.all(
-      CATEGORY.reduce(
-        (arr, category) => [...arr, fetchSearchCategory(searchField, category)],
-        [],
-      ),
-    )
+      CATEGORY.reduce((arr, category) => [...arr, fetchSearchCategory(searchField, category)], []),
+    );
 
     responses.forEach(({ Response, totalResults }, index) => {
       if (Response === 'True') {
-        dispatch(
-          setMoviesCategory({ type: CATEGORY[index], totals: totalResults }),
-        )
+        dispatch(setMoviesCategory({ type: CATEGORY[index], totals: totalResults }));
       }
-    })
-  }
+    });
+  };
 }
 
-function favoriteAdd(favoriteMovies, Search) {
-  if (favoriteMovies.length) {
-    Search.forEach((searchMovie) => {
-      favoriteMovies.forEach((favoriteMovie) => {
-        if (searchMovie.imdbID === favoriteMovie.imdbID) {
-          searchMovie.favorite = true
-        }
-      })
-    })
-  }
+function checkFavoriteMovie(favoriteMovies, searchedMovies) {
+  return searchedMovies.map((searchMovie) => {
+    let flag = false;
+    favoriteMovies.forEach((favoriteMovie) => {
+      if (searchMovie.imdbID === favoriteMovie.imdbID) {
+        flag = true;
+      }
+    });
+
+    return { ...searchMovie, favorite: flag };
+  });
 }
 
 export function getSearchField(searchPage = 1) {
   return async (dispatch, getState) => {
-    const { searchField, favoriteMovies } = getState()
+    const { searchField, favoriteMovies } = getState();
 
-    // 카테고리 받아오기
-    dispatch(getSearchCategory(searchField))
+    dispatch(getSearchCategory(searchField));
 
-    // 찾는페이지 초기화
-    dispatch(changeSearchPage(searchPage))
+    dispatch(changeSearchPage(searchPage));
 
-    const { Response, Search } = await fetchSearchField(
-      searchField,
-      searchPage,
-    )
-
+    const { Response, Search } = await fetchSearchField(searchField, searchPage);
     if (Response === 'False') {
-      return dispatch(setNoticeToggle('검색결과가 없습니다'))
+      dispatch(setNoticeToggle('검색결과가 없습니다'));
+      return;
     }
 
-    // 찾은영화 정보에 로컬에서의 즐겨찾기 정보 업데이트
-    favoriteAdd(favoriteMovies, Search)
-
-    dispatch(setSearchedMovies({ Search, searchPage }))
-  }
+    if (favoriteMovies.length) {
+      const checkedMovies = checkFavoriteMovie(favoriteMovies, Search);
+      dispatch(setSearchedMovies({ Search: checkedMovies, searchPage }));
+    } else {
+      dispatch(setSearchedMovies({ Search, searchPage }));
+    }
+  };
 }
 
 export function getSearchNextPage() {
   return async (dispatch, getState) => {
-    const { searchField, searchPage, favoriteMovies } = getState()
-    const nextPage = searchPage + 1
+    const { searchField, searchPage, favoriteMovies } = getState();
+    const nextPage = searchPage + 1;
 
-    dispatch(changeSearchPage(nextPage))
+    dispatch(changeSearchPage(nextPage));
 
-    const { Response, Search } = await fetchSearchField(searchField, nextPage)
+    const { Response, Search } = await fetchSearchField(searchField, nextPage);
 
-    if (Response === 'False') return
+    if (Response === 'False') return;
 
-    favoriteAdd(favoriteMovies, Search)
-
-    dispatch(setSearchedMovies({ Search }))
-  }
+    if (favoriteMovies.length) {
+      const checkedMovies = checkFavoriteMovie(favoriteMovies, Search);
+      dispatch(setSearchedMovies({ Search: checkedMovies }));
+    } else {
+      dispatch(setSearchedMovies({ Search }));
+    }
+  };
 }
 
 export function loadFavoriteMovies() {
   return async (dispatch) => {
-    const result = getItem(FAVORITE_MOVIES)
+    const result = getItem(FAVORITE_MOVIES);
 
-    dispatch(setFavoriteMovies(result))
-  }
+    dispatch(setFavoriteMovies(result));
+  };
 }
