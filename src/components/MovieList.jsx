@@ -8,11 +8,13 @@ import styles from './MovieList.module.scss';
 
 import MovieItem from './MovieItem';
 import FavoritesModal from '../commons/FavoritesModal';
+import Loading from './Loading';
 
 export default function MovieList({ type, movies = [] }) {
   const dispatch = useDispatch();
   const selectedMovie = useSelector((state) => state.selectedMovie);
   const categoryCount = useSelector((state) => state.categoryCount);
+  const loading = useSelector((state) => state.loading);
 
   const observer = useRef();
   const listDOM = useRef();
@@ -77,6 +79,10 @@ export default function MovieList({ type, movies = [] }) {
 
   if (type === 'search' && !movies.length) {
     return <div className={styles.noSearch}>검색 결과가 없습니다</div>;
+  }
+
+  if (loading) {
+    return <Loading />;
   }
 
   return (

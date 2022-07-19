@@ -15,6 +15,7 @@ const initialState = {
     episode: 0,
   },
   notice: '',
+  loading: false,
 };
 
 const reducers = {
@@ -77,6 +78,12 @@ const reducers = {
         favoriteMovies.find((movie) => movie.imdbID === imdbID),
     };
   },
+  setLoading: (state, { payload: loading }) => {
+    return {
+      ...state,
+      loading,
+    };
+  },
 };
 
 const { actions, reducer } = createSlice({
@@ -94,6 +101,7 @@ export const {
   setMoviesCategory,
   setNoticeToggle,
   selectMovie,
+  setLoading,
 } = actions;
 
 export default reducer;
@@ -136,11 +144,14 @@ export function getSearchField(searchPage = 1) {
 
     dispatch(changeSearchPage(searchPage));
 
+    dispatch(setLoading(true));
     const { Response, Search } = await fetchSearchField(searchField, searchPage);
     if (Response === 'False') {
       dispatch(setNoticeToggle('검색결과가 없습니다'));
+      dispatch(setLoading(false));
       return;
     }
+    dispatch(setLoading(false));
 
     if (favoriteMovies.length) {
       const checkedMovies = checkFavoriteMovie(favoriteMovies, Search);
@@ -158,9 +169,14 @@ export function getSearchNextPage() {
 
     dispatch(changeSearchPage(nextPage));
 
-    const { Response, Search } = await fetchSearchField(searchField, nextPage);
+    dispatch(setLoading(true));
 
-    if (Response === 'False') return;
+    const { Response, Search } = await fetchSearchField(searchField, nextPage);
+    if (Response === 'False') {
+      dispatch(setLoading(false));
+      return;
+    }
+    dispatch(setLoading(false));
 
     if (favoriteMovies.length) {
       const checkedMovies = checkFavoriteMovie(favoriteMovies, Search);
