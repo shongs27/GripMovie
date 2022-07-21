@@ -10,11 +10,15 @@ import MovieItem from './MovieItem';
 import FavoritesModal from '../commons/FavoritesModal';
 import Loading from './Loading';
 
+import useDragDrop from '../utils/useDragDrop';
+
 export default function MovieList({ type, movies = [] }) {
   const dispatch = useDispatch();
   const selectedMovie = useSelector((state) => state.selectedMovie);
   const categoryCount = useSelector((state) => state.categoryCount);
   const loading = useSelector((state) => state.loading);
+
+  const { dragStart, dragOver, dragDrop } = useDragDrop();
 
   const observer = useRef();
   const listDOM = useRef();
@@ -85,9 +89,18 @@ export default function MovieList({ type, movies = [] }) {
     <ul ref={listDOM} className={styles.listContainer}>
       {movies.map((movie, i) =>
         type === 'search' && movies.length - 1 === i ? (
-          <MovieItem key={movie.imdbID} ref={lastElementRef} movie={movie} index={i} />
+          <MovieItem key={movie.imdbID} ref={lastElementRef} movie={movie} />
         ) : (
-          <MovieItem key={movie.imdbID} movie={movie} index={i} />
+          <div
+            key={movie.imdbID}
+            draggable
+            onDragOver={dragOver}
+            onDragStart={dragStart}
+            onDrop={dragDrop}
+            id={i}
+          >
+            <MovieItem movie={movie} />
+          </div>
         ),
       )}
 

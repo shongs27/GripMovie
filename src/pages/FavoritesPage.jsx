@@ -7,6 +7,8 @@ import MovieList from '../components/MovieList';
 export default function FavoritesPage() {
   const favoriteMovies = useSelector((state) => state.favoriteMovies);
 
+  console.log('오노오노');
+
   return (
     <>
       <PageTitle title="즐겨찾기 페이지" />
