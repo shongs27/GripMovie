@@ -1,8 +1,9 @@
 @use '/src/styles/colors';
 
 .itemContainer {
-  width: 300px;
-  height: 400px;
+  width: 100%;
+  height: 200px;
+  margin-bottom: 20px;
 
   button {
     text-align: left;
@@ -12,39 +13,39 @@
 
     .posterContainer {
       width: 300px;
-      height: 250px;
+      height: 140px;
 
       display: flex;
       justify-content: center;
       align-items: center;
 
-      img {
-        width: 200px;
-        height: 200px;
+      img,
+      .exclamationIcon {
+        width: 80%;
+        height: 95%;
         border-radius: 10px;
       }
 
       .exclamationIcon {
-        width: 200px;
-        height: 200px;
         border: 2px solid colors.$GRAY;
-        border-radius: 10px;
         fill: colors.$RED;
       }
     }
 
     .introContainer {
       display: flex;
+      margin-left: 30px;
+      margin-right: 30px;
       justify-content: center;
 
       .emptyStarIcon {
-        width: 60px;
-        height: 60px;
+        width: 40px;
+        height: 40px;
         fill: none;
         stroke: colors.$BLUE;
-        stroke-width: 50px;
-        margin-right: 15px;
-        margin-top: 15px;
+        stroke-width: 15px;
+        margin-right: 20px;
+        margin-top: 5px;
       }
 
       .fullStarIcon {
@@ -52,11 +53,11 @@
       }
 
       .intro {
-        margin-top: 15px;
+        margin-top: 5px;
+        font-size: 0.8em;
 
         & > p:first-child {
           font-weight: bold;
-          font-size: 1.2em;
           color: colors.$BLUE;
         }
       }

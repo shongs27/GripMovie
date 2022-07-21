@@ -81,19 +81,17 @@ export default function MovieList({ type, movies = [] }) {
     return <div className={styles.noSearch}>검색 결과가 없습니다</div>;
   }
 
-  if (loading) {
-    return <Loading />;
-  }
-
   return (
     <ul ref={listDOM} className={styles.listContainer}>
       {movies.map((movie, i) =>
         type === 'search' && movies.length - 1 === i ? (
-          <MovieItem key={movie.imdbID} ref={lastElementRef} movie={movie} />
+          <MovieItem key={movie.imdbID} ref={lastElementRef} movie={movie} index={i} />
         ) : (
-          <MovieItem key={movie.imdbID} movie={movie} />
+          <MovieItem key={movie.imdbID} movie={movie} index={i} />
         ),
       )}
+
+      {loading && <Loading />}
 
       {selectedMovie && (
         <FavoritesModal
