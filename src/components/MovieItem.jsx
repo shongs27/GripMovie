@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import cx from 'classnames';
 import { selectMovie } from '../slice';
@@ -27,7 +27,7 @@ export default forwardRef(({ movie }, ref) => {
           {Poster === 'N/A' ? (
             <ExclamationIcon className={styles.exclamationIcon} />
           ) : (
-            <img src={Poster} alt="에러" onError={handleError} title={imdbID} />
+            <img src={Poster} alt="에러" draggable={false} onError={handleError} title={imdbID} />
           )}
         </div>
 
