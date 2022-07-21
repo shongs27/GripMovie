@@ -16,13 +16,11 @@ export default function useDragDrop() {
 
   function dragOver(e) {
     e.preventDefault();
-
-    e.dataTransfer.dropEffect = 'move';
   }
 
-  function initialize() {
+  function initialize(e) {
     e.dataTransfer.dropEffect = 'move';
-    setDragNode(undefined);
+    setDragNode();
   }
 
   function dragDrop(e) {
@@ -30,8 +28,8 @@ export default function useDragDrop() {
     const targetNodeIndex = Number(e.currentTarget.id);
 
     const newList = [...getItem(FAVORITE_MOVIES)];
-    //'타겟노드'를 제거해서 '드래그 노드'를 넣음
-    //'드래그 노드'자리에는 '타겟 노드'가 들어감
+    // '타겟노드'를 제거해서 '드래그 노드'를 넣음
+    // '드래그 노드'자리에는 '타겟 노드'가 들어감
     newList[dragNodeIndex] = newList.splice(targetNodeIndex, 1, newList[dragNodeIndex])[0];
     setItem(FAVORITE_MOVIES, newList);
     dispatch(loadFavoriteMovies(newList));

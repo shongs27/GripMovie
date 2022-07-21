@@ -1,4 +1,4 @@
-import { forwardRef, useState, useRef } from 'react';
+import { forwardRef } from 'react';
 import { useDispatch } from 'react-redux';
 import cx from 'classnames';
 import { selectMovie } from '../slice';

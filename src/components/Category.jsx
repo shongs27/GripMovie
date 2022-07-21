@@ -8,7 +8,7 @@ export default function Category({ categoryCount }) {
 
         return (
           <div key={`category-${type}`}>
-            {type} :{count}개
+            {type} : {count}개
           </div>
         );
       })}
