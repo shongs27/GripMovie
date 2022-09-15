@@ -1,7 +1,7 @@
-// import styles from './FavoritesPage.module.scss';
-
 import { useSelector } from 'react-redux';
-import PageTitle from '../commons/PageTitle';
+
+import styles from './favoritePage.module.scss';
+
 import MovieList from '../components/MovieList';
 
 export default function FavoritesPage() {
@@ -9,7 +9,7 @@ export default function FavoritesPage() {
 
   return (
     <>
-      <PageTitle title="즐겨찾기 페이지" />
+      <div className={styles.title}>즐겨찾기 페이지</div>
       <MovieList type="favorite" movies={favoriteMovies} />
     </>
   );

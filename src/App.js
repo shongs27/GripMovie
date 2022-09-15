@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 import cx from 'classnames';
@@ -10,7 +10,7 @@ import styles from './App.module.scss';
 import Notice from './components/Notice';
 import Layout from './commons/Layout';
 import SearchPage from './pages/SearchPage';
-import FavoritesPage from './pages/FavoritesPage';
+import FavoritePage from './pages/FavoritePage';
 
 function App() {
   const isNotice = useSelector((state) => state.noticeText);
@@ -22,12 +22,12 @@ function App() {
 
   return (
     <div className={styles.app}>
-      {isNotice && <Notice />}
+      {isNotice && <Notice text={isNotice} />}
       <div className={cx(styles.container, { [styles.clickBlocked]: isNotice })}>
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<SearchPage />} />
-            <Route path="favorites" element={<FavoritesPage />} />
+            <Route path="favorites" element={<FavoritePage />} />
             <Route path="*" element={<SearchPage />} />
           </Route>
         </Routes>
