@@ -1,8 +1,5 @@
-import { useCallback, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { changeSearchedMovies, loadFavoriteMovies, selectMovie } from '../slice';
-
-import { FAVORITE_MOVIES, getItem, setItem } from '../utils/storage';
+import { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 
 import styles from './MovieList.module.scss';
 
