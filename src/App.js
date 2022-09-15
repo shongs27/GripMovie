@@ -28,7 +28,7 @@ function App() {
           <Route element={<Layout />}>
             <Route path="/" element={<SearchPage />} />
             <Route path="favorites" element={<FavoritesPage />} />
-            <Route path="*" element={<Navigate to="/" />} />
+            <Route path="*" element={<SearchPage />} />
           </Route>
         </Routes>
       </div>
