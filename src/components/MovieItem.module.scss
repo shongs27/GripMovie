@@ -2,63 +2,79 @@
 
 .itemContainer {
   width: 100%;
-  height: 200px;
+  height: 150px;
   margin-bottom: 20px;
 
   button {
-    text-align: left;
-    background-color: inherit;
-    color: colors.$WHITE;
-    font-size: 1em;
+    all: unset;
+    display: flex;
+    width: 100%;
+  }
 
-    .posterContainer {
-      width: 300px;
-      height: 140px;
+  .posterContainer {
+    width: 60%;
+    height: 140px;
 
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-      img,
-      .exclamationIcon {
-        width: 80%;
-        height: 95%;
-        border-radius: 10px;
-      }
-
-      .exclamationIcon {
-        border: 2px solid colors.$GRAY;
-        fill: colors.$RED;
-      }
+    img,
+    .exclamationIcon {
+      width: 80%;
+      height: 95%;
+      border-radius: 10px;
     }
 
-    .introContainer {
+    .exclamationIcon {
+      border: 2px solid colors.$GRAY;
+      fill: colors.$RED;
+    }
+  }
+
+  .introContainer {
+    width: 40%;
+    height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    h2 {
+      height: 70px;
+      overflow-y: scroll;
+      word-wrap: break-word;
+      font-size: 1rem;
+      font-weight: bold;
+      color: colors.$PUPLE;
+    }
+
+    .intro {
       display: flex;
-      margin-left: 30px;
-      margin-right: 30px;
-      justify-content: center;
+      justify-content: space-around;
+      align-items: center;
+      margin-top: 5px;
+      word-break: break-all;
 
-      .emptyStarIcon {
-        width: 40px;
-        height: 40px;
-        fill: none;
-        stroke: colors.$BLUE;
-        stroke-width: 15px;
-        margin-right: 20px;
-        margin-top: 5px;
+      .introDetail {
+        width: 70%;
+
+        p {
+          font-size: 0.8em;
+        }
       }
 
-      .fullStarIcon {
-        fill: colors.$BLUE;
-      }
+      .iconWrapper {
+        width: 25%;
+        margin-right: 5px;
 
-      .intro {
-        margin-top: 5px;
-        font-size: 0.8em;
+        .emptyStarIcon {
+          fill: none;
+          stroke: colors.$BLUE;
+          stroke-width: 35px;
+        }
 
-        & > p:first-child {
-          font-weight: bold;
-          color: colors.$BLUE;
+        .fullStarIcon {
+          fill: colors.$BLUE;
         }
       }
     }

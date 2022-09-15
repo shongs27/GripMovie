@@ -7,7 +7,7 @@
 
   -ms-overflow-style: none; // IE and Edge
   scrollbar-width: none; // Firefox
-  &::-webkit-scrollbar {
+  ::-webkit-scrollbar {
     display: none; // Chrome
   }
 }
@@ -30,6 +30,6 @@
   border-radius: 40px;
 }
 
-.blocked {
+.clickBlocked {
   pointer-events: none;
 }

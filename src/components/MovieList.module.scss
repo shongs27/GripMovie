@@ -1,3 +1,5 @@
+@use '/src/styles/colors';
+
 .listContainer {
   list-style: none;
   height: 500px;
@@ -6,4 +8,7 @@
 
 .noSearch {
   margin-top: 20px;
+  font-weight: 1.4em;
+  color: colors.$GRAY;
+  font-weight: bold;
 }

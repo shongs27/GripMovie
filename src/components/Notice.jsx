@@ -1,22 +1,20 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { setNoticeToggle } from '../slice';
+import { setNoticeText } from '../slice';
 
 import style from './Notice.module.scss';
 
 export default function Notice() {
   const dispatch = useDispatch();
-  const notice = useSelector((state) => state.notice);
+  const noticeText = useSelector((state) => state.noticeText);
 
   function handleClick() {
-    dispatch(setNoticeToggle(''));
+    dispatch(setNoticeText(''));
   }
-
-  if (!notice) return undefined;
 
   return (
     <div className={style.container}>
       <h1>요청 실패</h1>
-      <p>{notice}</p>
+      <p>{noticeText}</p>
       <button type="button" onClick={handleClick}>
         확인
       </button>

@@ -14,7 +14,7 @@ const initialState = {
     series: 0,
     episode: 0,
   },
-  notice: '',
+  noticeText: '',
   loading: false,
 };
 
@@ -64,13 +64,18 @@ const reducers = {
     },
   }),
 
-  setNoticeToggle: (state, { payload: notice }) => ({
+  setNoticeText: (state, { payload: noticeText }) => ({
     ...state,
-    notice,
+    noticeText,
   }),
 
   selectMovie: (state, { payload: imdbID }) => {
     const { searchedMovies, favoriteMovies } = state;
+    if (!imdbID)
+      return {
+        ...state,
+        selectedMovie: '',
+      };
     return {
       ...state,
       selectedMovie:
@@ -99,7 +104,7 @@ export const {
   changeSearchedMovies,
   setFavoriteMovies,
   setMoviesCategory,
-  setNoticeToggle,
+  setNoticeText,
   selectMovie,
   setLoading,
 } = actions;
@@ -127,7 +132,7 @@ function checkFavoriteMovie(favoriteMovies, searchedMovies) {
   return searchedMovies.map((searchMovie) => {
     let flag = false;
     favoriteMovies.forEach((favoriteMovie) => {
-      if (searchMovie.imdbID === favoriteMovie.imdbID) {
+      if (searchMovie.imdbID === favoriteMovie?.imdbID) {
         flag = true;
       }
     });
@@ -147,7 +152,7 @@ export function getSearchField(searchPage = 1) {
     dispatch(setLoading(true));
     const { Response, Search } = await fetchSearchField(searchField, searchPage);
     if (Response === 'False') {
-      dispatch(setNoticeToggle('검색결과가 없습니다'));
+      dispatch(setNoticeText('검색결과가 없습니다'));
       dispatch(setLoading(false));
       return;
     }

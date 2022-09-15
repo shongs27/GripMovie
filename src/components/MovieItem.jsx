@@ -12,6 +12,7 @@ export default forwardRef(({ movie }, ref) => {
   const dispatch = useDispatch();
 
   function handleClick() {
+    console.log(imdbID);
     dispatch(selectMovie(imdbID));
   }
 
@@ -32,15 +33,20 @@ export default forwardRef(({ movie }, ref) => {
         </div>
 
         <div className={styles.introContainer}>
-          <FullStarIcon
-            className={cx(styles.emptyStarIcon, {
-              [styles.fullStarIcon]: favorite,
-            })}
-          />
+          <h2>{Title}</h2>
+
           <div className={styles.intro}>
-            <p>{Title}</p>
-            <p>개봉 : {Year}</p>
-            <p>장르 : {Type}</p>
+            <div className={styles.iconWrapper}>
+              <FullStarIcon
+                className={cx(styles.emptyStarIcon, {
+                  [styles.fullStarIcon]: favorite,
+                })}
+              />
+            </div>
+            <div className={styles.introDetail}>
+              <p>개봉 : {Year}</p>
+              <p>장르 : {Type}</p>
+            </div>
           </div>
         </div>
       </button>
