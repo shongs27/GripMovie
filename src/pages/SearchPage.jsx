@@ -8,13 +8,12 @@ import MovieList from '../components/MovieList';
 
 export default function SearchPage() {
   const searchedMovies = useSelector((state) => state.searchedMovies);
-  const categoryCount = useSelector((state) => state.categoryCount);
 
   return (
     <>
       <div className={styles.title}>검색 페이지</div>
       <SearchBar />
-      <Category categoryCount={categoryCount} />
+      <Category />
       <MovieList type="search" movies={searchedMovies} />
     </>
   );
