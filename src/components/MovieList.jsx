@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeSearchedMovies, getSearchNextPage, loadFavoriteMovies, selectMovie } from '../slice';
+import { changeSearchedMovies, loadFavoriteMovies, selectMovie } from '../slice';
 
 import { FAVORITE_MOVIES, getItem, setItem } from '../utils/storage';
 
@@ -11,6 +11,7 @@ import FavoritesModal from './FavoritesModal';
 import Loading from './Loading';
 
 import useDragDrop from '../utils/useDragDrop';
+import useObserver from '../utils/useObserver';
 
 export default function MovieList({ type, movies = [] }) {
   const dispatch = useDispatch();
@@ -19,8 +20,8 @@ export default function MovieList({ type, movies = [] }) {
   const loading = useSelector((state) => state.loading);
 
   const { dragStart, dragOver, dragDrop } = useDragDrop();
+  useObserver(movies);
 
-  const observer = useRef();
   const listDOM = useRef();
 
   const handleCancel = useCallback(() => {
@@ -62,20 +63,6 @@ export default function MovieList({ type, movies = [] }) {
     UpdateFavoriteMovies(filtered);
   }, [dispatch, UpdateFavoriteMovies, selectedMovie?.imdbID]);
 
-  const lastElementRef = useCallback(
-    (node) => {
-      if (observer.current) observer.current.disconnect();
-
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          dispatch(getSearchNextPage());
-        }
-      });
-      if (node) observer.current.observe(node);
-    },
-    [dispatch],
-  );
-
   useEffect(() => {
     const dom = listDOM.current;
     if (dom) dom.scrollTo(0, 0);
@@ -89,7 +76,7 @@ export default function MovieList({ type, movies = [] }) {
     <ul ref={listDOM} className={styles.listContainer}>
       {movies.map((movie, i) =>
         type === 'search' && movies.length - 1 === i ? (
-          <MovieItem key={movie.imdbID} ref={lastElementRef} movie={movie} />
+          <MovieItem key={movie.imdbID} movie={movie} />
         ) : (
           <div
             key={movie.imdbID}

@@ -6,13 +6,11 @@ import { selectMovie } from '../slice';
 import styles from './MovieItem.module.scss';
 import { ExclamationIcon, FullStarIcon } from '../assets/svg';
 
-export default forwardRef(({ movie }, ref) => {
+export default forwardRef(({ movie }) => {
   const { Title, Year, imdbID, Type, Poster, favorite } = movie;
-
   const dispatch = useDispatch();
 
   function handleClick() {
-    console.log(imdbID);
     dispatch(selectMovie(imdbID));
   }
 
@@ -22,7 +20,7 @@ export default forwardRef(({ movie }, ref) => {
   }
 
   return (
-    <li ref={ref} className={styles.itemContainer}>
+    <li id={imdbID} className={styles.itemContainer}>
       <button type="button" onClick={handleClick}>
         <div className={styles.posterContainer}>
           {Poster === 'N/A' ? (
