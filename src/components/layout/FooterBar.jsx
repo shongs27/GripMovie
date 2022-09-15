@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styles from './FooterBar.module.scss';
-import { FullStarIcon, SearchIcon } from '../assets/svg';
+import { FullStarIcon, SearchIcon } from '../../assets/svg';
 
 export default function FooterBar() {
   return (

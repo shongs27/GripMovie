@@ -8,7 +8,7 @@ import { loadFavoriteMovies } from './slice';
 import styles from './App.module.scss';
 
 import Notice from './components/Notice';
-import Layout from './commons/Layout';
+import Layout from './components/layout';
 import SearchPage from './pages/SearchPage';
 import FavoritePage from './pages/FavoritePage';
 

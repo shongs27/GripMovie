@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 
-import styles from './Layout.module.scss';
+import styles from './index.module.scss';
 
 import FooterBar from './FooterBar';
 

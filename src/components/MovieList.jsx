@@ -7,7 +7,7 @@ import { FAVORITE_MOVIES, getItem, setItem } from '../utils/storage';
 import styles from './MovieList.module.scss';
 
 import MovieItem from './MovieItem';
-import FavoritesModal from '../commons/FavoritesModal';
+import FavoritesModal from './FavoritesModal';
 import Loading from './Loading';
 
 import useDragDrop from '../utils/useDragDrop';
