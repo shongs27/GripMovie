@@ -1,4 +1,3 @@
-import { forwardRef } from 'react';
 import { useDispatch } from 'react-redux';
 import cx from 'classnames';
 import { selectMovie } from '../slice';
@@ -6,12 +5,12 @@ import { selectMovie } from '../slice';
 import styles from './MovieItem.module.scss';
 import { ExclamationIcon, FullStarIcon } from '../assets/svg';
 
-export default forwardRef(({ movie }) => {
+export default function MovieItem({ movie }) {
   const { Title, Year, imdbID, Type, Poster, favorite } = movie;
   const dispatch = useDispatch();
 
   function handleClick() {
-    dispatch(selectMovie(imdbID));
+    dispatch(selectMovie(movie));
   }
 
   function handleError(e) {
@@ -50,4 +49,4 @@ export default forwardRef(({ movie }) => {
       </button>
     </li>
   );
-});
+}

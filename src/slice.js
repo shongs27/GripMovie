@@ -69,18 +69,17 @@ const reducers = {
     noticeText,
   }),
 
-  selectMovie: (state, { payload: imdbID }) => {
-    const { searchedMovies, favoriteMovies } = state;
-    if (!imdbID)
+  selectMovie: (state, { payload: selectedMovie }) => {
+    if (!selectedMovie) {
       return {
         ...state,
         selectedMovie: '',
       };
+    }
+
     return {
       ...state,
-      selectedMovie:
-        searchedMovies.find((movie) => movie.imdbID === imdbID) ||
-        favoriteMovies.find((movie) => movie.imdbID === imdbID),
+      selectedMovie,
     };
   },
   setLoading: (state, { payload: loading }) => {

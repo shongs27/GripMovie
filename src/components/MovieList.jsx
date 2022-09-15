@@ -14,7 +14,6 @@ import useDragDrop from '../utils/useDragDrop';
 import useObserver from '../utils/useObserver';
 
 export default function MovieList({ type, movies = [] }) {
-  const dispatch = useDispatch();
   const selectedMovie = useSelector((state) => state.selectedMovie);
   const categoryCount = useSelector((state) => state.categoryCount);
   const loading = useSelector((state) => state.loading);
@@ -24,58 +23,15 @@ export default function MovieList({ type, movies = [] }) {
 
   const listDOM = useRef();
 
-  const handleCancel = useCallback(() => {
-    dispatch(selectMovie());
-  }, [dispatch]);
-
-  const UpdateFavoriteMovies = useCallback(
-    (favoriteMovies) => {
-      setItem(FAVORITE_MOVIES, favoriteMovies);
-      dispatch(loadFavoriteMovies());
-      handleCancel();
-    },
-    [dispatch, handleCancel],
-  );
-
-  const handleRegister = useCallback(() => {
-    dispatch(
-      changeSearchedMovies({
-        favoriteID: selectedMovie.imdbID,
-        favorite: true,
-      }),
-    );
-
-    const added = [...getItem(FAVORITE_MOVIES), { ...selectedMovie, favorite: true }];
-    UpdateFavoriteMovies(added);
-  }, [dispatch, UpdateFavoriteMovies, selectedMovie]);
-
-  const handleExpel = useCallback(() => {
-    dispatch(
-      changeSearchedMovies({
-        favoriteID: selectedMovie?.imdbID,
-        favorite: false,
-      }),
-    );
-
-    const filtered = getItem(FAVORITE_MOVIES).filter(
-      ({ imdbID }) => imdbID !== selectedMovie?.imdbID,
-    );
-    UpdateFavoriteMovies(filtered);
-  }, [dispatch, UpdateFavoriteMovies, selectedMovie?.imdbID]);
-
   useEffect(() => {
     const dom = listDOM.current;
     if (dom) dom.scrollTo(0, 0);
   }, [categoryCount]);
 
-  if (type === 'search' && !movies.length) {
-    return <div className={styles.noSearch}>검색 결과가 없습니다</div>;
-  }
-
   return (
     <ul ref={listDOM} className={styles.listContainer}>
       {movies.map((movie, i) =>
-        type === 'search' && movies.length - 1 === i ? (
+        type === 'search' ? (
           <MovieItem key={movie.imdbID} movie={movie} />
         ) : (
           <div
@@ -93,14 +49,7 @@ export default function MovieList({ type, movies = [] }) {
 
       {loading && <Loading />}
 
-      {selectedMovie && (
-        <FavoritesModal
-          handleRegister={handleRegister}
-          handleExpel={handleExpel}
-          handleCancel={handleCancel}
-          selectedMovie={selectedMovie}
-        />
-      )}
+      {selectedMovie && <FavoritesModal selectedMovie={selectedMovie} />}
     </ul>
   );
 }
