@@ -56,13 +56,26 @@ const reducers = {
     favoriteMovies,
   }),
 
-  setMoviesCategory: (state, { payload: { type, totals } }) => ({
-    ...state,
-    categoryCount: {
-      ...state.categoryCount,
-      [type]: totals,
-    },
-  }),
+  setMoviesCategory: (state, { payload: { type, totals } }) => {
+    if (!type) {
+      return {
+        ...state,
+        categoryCount: {
+          movie: 0,
+          series: 0,
+          episode: 0,
+        },
+      };
+    }
+
+    return {
+      ...state,
+      categoryCount: {
+        ...state.categoryCount,
+        [type]: totals,
+      },
+    };
+  },
 
   setNoticeText: (state, { payload: noticeText }) => ({
     ...state,
@@ -140,6 +153,14 @@ function checkFavoriteMovie(favoriteMovies, searchedMovies) {
   });
 }
 
+export function initialize() {
+  return async (dispatch) => {
+    dispatch(changeSearchField(''));
+    dispatch(setMoviesCategory({ type: '' }));
+    dispatch(setSearchedMovies({ Search: [], searchPage: 1 }));
+  };
+}
+
 export function getSearchField(searchPage = 1) {
   return async (dispatch, getState) => {
     const { searchField, favoriteMovies } = getState();
@@ -153,6 +174,7 @@ export function getSearchField(searchPage = 1) {
     if (Response === 'False') {
       dispatch(setNoticeText('검색결과가 없습니다'));
       dispatch(setLoading(false));
+      dispatch(initialize());
       return;
     }
     dispatch(setLoading(false));
